@@ -1,29 +1,28 @@
 function getPlots(id) {
 //read samples.json
-    d3.json("samples.json").then(sampledata => {
+    d3.json("https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json").then(sampledata => {
         console.log(sampledata)
     // Create a horizontal bar chart with a dropdown menue to display the top 10 OTUs found in that individual 
-        var ids = sampledata.samples[0].otuIds;
+        var ids = sampledata.samples[0].otu_ids;
         console.log(ids)
         var sampleValues = sampledata.samples[0].sample_values.slice(0,10).reverse();
         console.log(sampleValues)
         var labels = sampledata.samples[0].otu_labels.slice(0,10);
         console.log(labels)
         //Get only top 10 ids
-        var otuTop = (sampledata.samples[0].otuIds.slice(0,10)).reverse();
+        var otuTop = (sampledata.samples[0].otu_ids.slice(0,10)).reverse();
         // get OTU ids in correct form
-        var OTUId = otuTop.map(d => "OTU" + d);
-        console.log(`OTU IDS: ${OTUId}`)
+        var otu_ids = otuTop.map(d => "OTU" + d);
+        console.log(`OTU IDS: ${otu_ids}`)
         //get top 10 labels
         var labels = sampledata.samples[0].otu_labels.slice(0,10);
         console.log(`OTU_labels: ${labels}`)
         var trace = {
             x: sampleValues,
-            y: OTUId,
+            y: otu_ids,
             text: labels,
             marker: {
-            color:'blue'
-            },
+            color:'blue'},
             type: 'bar',
             orientation: 'h',
         };
@@ -47,12 +46,12 @@ function getPlots(id) {
     
 //Create a bubble chart that displays each sample.
         var trace1={
-            x: sampledata.samples[0].otuIds,
+            x: sampledata.samples[0].otu_ids,
             y: sampledata.samples[0].sampleValues,
             mode: "markers",
             marker: {
                 size: sampledata.samples[0].sampleValues,
-                color: sampledata.samples[0].otuIds
+                color: sampledata.samples[0].otu_ids
             },
             text: sampledata.samples[0].otu_labels
         };
@@ -74,7 +73,7 @@ function getPlots(id) {
 //Display each key-value pair from the metadata JSON object somewhere on the page.
 function getDemoInfo(id) {
     //read json file
-    d3.json("samples.json").then((data)=> {
+    d3.json("https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json").then((data)=> {
         var metadata = data.metadata;
         console.log(metadata)
         //filter by ID and select demographic info
@@ -95,7 +94,7 @@ function optionChange(id){
 
 function init(){
     var dropdown= d3.select("#selDataset");
-    d3.json("samples.json").then((data)=> {
+    d3.json("https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json").then((data)=> {
         console.log(data)
         data.names.forEach(function(name){
             dropdown.append("option").text(name).property("value", name);
