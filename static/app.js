@@ -1,21 +1,21 @@
 function getPlots(id) {
 //read samples.json
-    d3.json("samples.json").then(sampleData => {
-        console.log(sampleData)
+    d3.json("samples.json").then(sampledata => {
+        console.log(sampledata)
     // Create a horizontal bar chart with a dropdown menue to display the top 10 OTUs found in that individual 
-        var ids = sampleData.samples[0].otuIds;
+        var ids = sampledata.samples[0].otuIds;
         console.log(ids)
-        var sampleValues = sampleData.samples[0].sample_values.slice(0,10).reverse();
+        var sampleValues = sampledata.samples[0].sample_values.slice(0,10).reverse();
         console.log(sampleValues)
-        var labels = sampleData.samples[0].otu_labels.slice(0,10);
+        var labels = sampledata.samples[0].otu_labels.slice(0,10);
         console.log(labels)
         //Get only top 10 ids
-        var otuTop = (sampleData.samples[0].otuIds.slice(0,10)).reverse();
+        var otuTop = (sampledata.samples[0].otuIds.slice(0,10)).reverse();
         // get OTU ids in correct form
         var OTUId = otuTop.map(d => "OTU" + d);
         console.log(`OTU IDS: ${OTUId}`)
         //get top 10 labels
-        var labels = sampleData.samples[0].otu_labels.slice(0,10);
+        var labels = sampledata.samples[0].otu_labels.slice(0,10);
         console.log(`OTU_labels: ${labels}`)
         var trace = {
             x: sampleValues,
@@ -47,14 +47,14 @@ function getPlots(id) {
     
 //Create a bubble chart that displays each sample.
         var trace1={
-            x: sampleData.samples[0].otuIds,
-            y: sampleData.samples[0].sampleValues,
+            x: sampledata.samples[0].otuIds,
+            y: sampledata.samples[0].sampleValues,
             mode: "markers",
             marker: {
-                size: sampleData.samples[0].sampleValues,
-                color: sampleData.samples[0].otuIds
+                size: sampledata.samples[0].sampleValues,
+                color: sampledata.samples[0].otuIds
             },
-            text: sampleData.samples[0].otu_labels
+            text: sampledata.samples[0].otu_labels
         };
         //set layout for bubble chart
         var layout2= {
