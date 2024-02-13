@@ -1,11 +1,22 @@
 function getPlots(id) {
 //read samples.json
-    d3.json("./samples.json").then(sampleData => {
+    d3.json("samples.json").then(sampleData => {
         console.log(sampleData)
     // Create a horizontal bar chart with a dropdown menue to display the top 10 OTUs found in that individual 
         var ids = sampleData.samples[0].otuIds;
         console.log(ids)
         var sampleValues = sampleData.samples[0].sample_values.slice(0,10).reverse();
+        //_troubleshooting
+        d3.json("samples.json").then(sampleData => {
+            if (sampleData && sampleData.samples && sampleData.samples.length > 0) {
+                var sampleValues = sampleData.samples[0].sample_values.slice(0, 10).reverse();
+            } else {
+                console.error("Invalid or empty sample data.");
+            }
+        }).catch(error => {
+            console.error("Error loading sample data:", error);
+        });
+        //_
         console.log(sampleValues)
         var labels = sampleData.samples[0].otu_labels.slice(0,10);
         console.log(labels)
@@ -13,16 +24,17 @@ function getPlots(id) {
         var otuTop = (sampleData.samples[0].otuIds.slice(0,10)).reverse();
         // get OTU ids in correct form
         var otuIds = otuTop.map(d => "OTU" + d);
-        console.log(`OTU IDS: ${otuIDs}`)
+        console.log(`OTU IDS: ${otuIds}`)
         //get top 10 labels
         var labels = sampleData.samples[0].otu_labels.slice(0,10);
         console.log(`OTU_labels: ${labels}`)
         var trace = {
             x: sampleValues,
-            y: otuIDs,
+            y: otuIds,
             text: labels,
             marker: {
-            color:'blue'},
+            color:'blue'
+            },
             type: 'bar',
             orientation: 'h',
         };
@@ -46,11 +58,11 @@ function getPlots(id) {
     
 //Create a bubble chart that displays each sample.
         var trace1={
-            x: sampleData.samples[0].otuIDs,
+            x: sampleData.samples[0].otuIds,
             y: sampleData.samples[0].sampleValues,
             marker: {
                 size: sampleData.samples[0].sampleValues,
-                color: sampleData.samples[0].otuIDs
+                color: sampleData.samples[0].otuIds
             },
             text: sampleData.samples[0].otu_labels
         };
@@ -72,7 +84,7 @@ function getPlots(id) {
 //Display each key-value pair from the metadata JSON object somewhere on the page.
 function getDemoInfo(id) {
     //read json file
-    d3.json("./samples.json").then((data)=> {
+    d3.json("samples.json").then((data)=> {
         var metadata = data.metadata;
         console.log(metadata)
         //filter by ID and select demographic info
@@ -93,14 +105,14 @@ function optionChange(id){
 
 function init(){
     var dropdown= d3.select("#selDataset");
-    d3.json("./samples.json").then((data)=> {
+    d3.json("samples.json").then((data)=> {
         console.log(data)
         data.names.forEach(function(name){
-            dropdown.append("option").text(name).property("value");
+            dropdown.append("option").text(name).property("value", name);
         });
         getPlots(data.names[0]);
         getDemoInfo(data.names[0]);
     });
 }
-init();
 
+init();
