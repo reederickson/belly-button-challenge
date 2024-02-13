@@ -6,31 +6,20 @@ function getPlots(id) {
         var ids = sampleData.samples[0].otuIds;
         console.log(ids)
         var sampleValues = sampleData.samples[0].sample_values.slice(0,10).reverse();
-        //_troubleshooting
-        d3.json("samples.json").then(sampleData => {
-            if (sampleData && sampleData.samples && sampleData.samples.length > 0) {
-                var sampleValues = sampleData.samples[0].sample_values.slice(0, 10).reverse();
-            } else {
-                console.error("Invalid or empty sample data.");
-            }
-        }).catch(error => {
-            console.error("Error loading sample data:", error);
-        });
-        //_
         console.log(sampleValues)
         var labels = sampleData.samples[0].otu_labels.slice(0,10);
         console.log(labels)
         //Get only top 10 ids
         var otuTop = (sampleData.samples[0].otuIds.slice(0,10)).reverse();
         // get OTU ids in correct form
-        var otuIds = otuTop.map(d => "OTU" + d);
-        console.log(`OTU IDS: ${otuIds}`)
+        var OTUId = otuTop.map(d => "OTU" + d);
+        console.log(`OTU IDS: ${OTUId}`)
         //get top 10 labels
         var labels = sampleData.samples[0].otu_labels.slice(0,10);
         console.log(`OTU_labels: ${labels}`)
         var trace = {
             x: sampleValues,
-            y: otuIds,
+            y: OTUId,
             text: labels,
             marker: {
             color:'blue'
@@ -47,7 +36,7 @@ function getPlots(id) {
                 tickmode:'linear',
             },
             margin: {
-                t:100,
+                t: 100,
                 l: 100,
                 r: 100,
                 b: 30
@@ -60,6 +49,7 @@ function getPlots(id) {
         var trace1={
             x: sampleData.samples[0].otuIds,
             y: sampleData.samples[0].sampleValues,
+            mode: "markers",
             marker: {
                 size: sampleData.samples[0].sampleValues,
                 color: sampleData.samples[0].otuIds
@@ -75,7 +65,7 @@ function getPlots(id) {
 
         var data1= [trace1];
     //create the bubble plot
-    Plotly.newPlot("bubble",data1,layout2);
+    Plotly.newPlot("bubble", data1, layout2);
 
     });
 }
