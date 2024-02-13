@@ -27,13 +27,10 @@ To use this website:
 ```bash
 git clone https://github.com/reederickson/belly-button-challenge.git
 ```
-Open the index.html file in your web browser to access the website.
-
-Interact with the horizontal bar chart and bubble chart to explore the OTU data.
-
-Use the dropdown menu to select different individuals and view their top 10 OTUs.
-
-Explore the sample metadata to understand the demographic information associated with each individual.
+-Open the index.html file in your web browser to access the website.
+-Interact with the horizontal bar chart and bubble chart to explore the OTU data.
+-Use the dropdown menu to select different individuals and view their top 10 OTUs.
+-Explore the sample metadata to understand the demographic information associated with each individual.
 
 
 ### References
@@ -42,4 +39,5 @@ Explore the sample metadata to understand the demographic information associated
 
 ## Credits
 Reed Erickson
+
 Outside help: tutoring session with Khangwelo
