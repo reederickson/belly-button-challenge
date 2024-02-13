@@ -64,7 +64,7 @@ function getPlots(id) {
 
         var data1= [trace1];
     //create the bubble plot
-    Plotly.newPlot("bubble", data1, layout2);
+    Plotly.newPlot('bubble', data1, layout2);
 
     });
 }
