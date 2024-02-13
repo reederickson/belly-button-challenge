@@ -40,4 +40,5 @@ git clone https://github.com/reederickson/belly-button-challenge.git
 ## Credits
 Reed Erickson
 
-Outside help: tutoring session with Khangwelo
+Outside help: tutoring session with Khangwelo.
+Attended office hours and Carlos pointed out that I was running the file from my local machine; switched to the URL and it fixed my problems.
