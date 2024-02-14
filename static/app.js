@@ -55,19 +55,20 @@ function getPlots(id) {
             },
             text: sampledata.samples[0].otu_labels
         };
+        var data1= [trace1];
+
         //set layout for bubble chart
         var layout2= {
             xaxis: {title: "OTU ID"},
             height: 500,
-            width: 1000
+            width: 1500
         };
 
-        var data1= [trace1];
     //create the bubble plot
     Plotly.newPlot('bubble', data1, layout2);
 
     });
-}
+};
 
 //Display the sample metadata, i.e., an individual's demographic information.
 //Display each key-value pair from the metadata JSON object somewhere on the page.
@@ -84,17 +85,17 @@ function getDemoInfo(id) {
             demographicInfo.append("h5").text(key[0].toUpperCase() + ": " + key[1] + "\n");
         });
     });
-}
+};
 
 // Update all the plots when a new sample is selected. Additionally, you are welcome to create any layout that you would like for your dashboard.
 function optionChange(id){
     getPlots(id);
     getDemoInfo(id);
-}
+};
 
 function init(){
-    var dropdown= d3.select("#selDataset");
     d3.json("https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json").then((data)=> {
+        var dropdown= d3.select("#selDataset");
         console.log(data)
         data.names.forEach(function(name){
             dropdown.append("option").text(name).property("value", name);
@@ -102,6 +103,6 @@ function init(){
         getPlots(data.names[0]);
         getDemoInfo(data.names[0]);
     });
-}
+};
 
 init();
