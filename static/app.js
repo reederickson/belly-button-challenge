@@ -47,11 +47,12 @@ function getPlots(id) {
 //Create a bubble chart that displays each sample.
         var trace1={
             x: sampledata.samples[0].otu_ids,
-            y: sampledata.samples[0].sampleValues,
+            y: sampledata.samples[0].sample_values,
             mode: "markers",
             marker: {
-                size: sampledata.samples[0].sampleValues,
-                color: sampledata.samples[0].otu_ids
+                size: sampledata.samples[0].sample_values,
+                color: sampledata.samples[0].otu_ids,
+                colorscale: "Earth"
             },
             text: sampledata.samples[0].otu_labels
         };
@@ -60,6 +61,7 @@ function getPlots(id) {
         //set layout for bubble chart
         var layout2= {
             xaxis: {title: "OTU ID"},
+            yaxis: {title: "Sample Values"},
             height: 500,
             width: 1500
         };
@@ -87,21 +89,27 @@ function getDemoInfo(id) {
     });
 };
 
-// Update all the plots when a new sample is selected. Additionally, you are welcome to create any layout that you would like for your dashboard.
+// Update all the plots when a new sample is selected.
 function optionChange(id){
     getPlots(id);
     getDemoInfo(id);
-};
+}
 
 function init(){
     d3.json("https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json").then((data)=> {
-        var dropdown= d3.select("#selDataset");
+        var dropdown = d3.select("#selDataset");
         console.log(data)
         data.names.forEach(function(name){
             dropdown.append("option").text(name).property("value", name);
         });
         getPlots(data.names[0]);
         getDemoInfo(data.names[0]);
+
+        // Add an event listener to the dropdown menu element
+        dropdown.on("change", function() {
+            var selectedValue = d3.select(this).property("value");
+            optionChange(selectedValue);
+        });
     });
 };
 
