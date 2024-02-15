@@ -91,10 +91,44 @@ function getDemoInfo(id) {
 
 // Update all the plots when a new sample is selected.
 function optionChange(id){
+    // Fetch data for the selected sample
+    d3.json("https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json").then((sampledata) => {
+        // Filter the sampledata to get the selected sample by ID
+        var selectedSample = sampledata.samples.find(sample => sample.id === id);
+
+        // Update the bar chart
+        var barTrace = {
+            x: selectedSample.sample_values.slice(0, 10).reverse(),
+            y: selectedSample.otu_ids.slice(0, 10).map(id => `OTU ${id}`).reverse(),
+            text: selectedSample.otu_labels.slice(0, 10).reverse(),
+            type: 'bar',
+            orientation: 'h'
+        };
+        var barData = [barTrace];
+        Plotly.newPlot('bar', barData);
+
+        // Update the bubble chart
+        var bubbleTrace = {
+            x: selectedSample.otu_ids,
+            y: selectedSample.sample_values,
+            mode: 'markers',
+            marker: {
+                size: selectedSample.sample_values,
+                color: selectedSample.otu_ids,
+                colorscale: 'Earth'
+            },
+            text: selectedSample.otu_labels
+        };
+        var bubbleData = [bubbleTrace];
+        Plotly.newPlot('bubble', bubbleData);
+    });
+    getDemoInfo(id);
+}
+function optionChange(id){
     getPlots(id);
     getDemoInfo(id);
 }
-
+//update dropdown/metadata
 function init(){
     d3.json("https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json").then((data)=> {
         var dropdown = d3.select("#selDataset");
