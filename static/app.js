@@ -93,7 +93,6 @@ function getDemoInfo(id) {
 function optionChange(id){
     // Fetch data for the selected sample
     d3.json("https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json").then((sampledata) => {
-        // Filter the sampledata to get the selected sample by ID
         var selectedSample = sampledata.samples.find(sample => sample.id === id);
 
         // Update the bar chart
@@ -105,7 +104,19 @@ function optionChange(id){
             orientation: 'h'
         };
         var barData = [barTrace];
-        Plotly.newPlot('bar', barData);
+        var barLayout = {
+            title: "Top 10 OTU",
+            yaxis: {
+                tickmode: 'linear'
+            },
+            margin: {
+                t: 100,
+                l: 100,
+                r: 100,
+                b: 30
+            }
+        };
+        Plotly.newPlot('bar', barData, barLayout);
 
         // Update the bubble chart
         var bubbleTrace = {
@@ -120,13 +131,22 @@ function optionChange(id){
             text: selectedSample.otu_labels
         };
         var bubbleData = [bubbleTrace];
-        Plotly.newPlot('bubble', bubbleData);
+        var bubbleLayout = {
+            xaxis: { title: "OTU ID" },
+            yaxis: { title: "Sample Values" },
+            height: 500,
+            width: 1500
+        };
+
+        Plotly.newPlot('bubble', bubbleData, bubbleLayout);
+        // Update the demographic information
+        var metadata = sampledata.metadata.find(meta => meta.id.toString() === id);
+        var demographicInfo = d3.select("#sample-metadata");
+        demographicInfo.html("");
+        Object.entries(metadata).forEach((entry) => {
+            demographicInfo.append("h5").text(`${entry[0].toUpperCase()}: ${entry[1]}`);
+        });
     });
-    getDemoInfo(id);
-}
-function optionChange(id){
-    getPlots(id);
-    getDemoInfo(id);
 }
 //update dropdown/metadata
 function init(){
@@ -136,8 +156,7 @@ function init(){
         data.names.forEach(function(name){
             dropdown.append("option").text(name).property("value", name);
         });
-        getPlots(data.names[0]);
-        getDemoInfo(data.names[0]);
+        optionChange(data.names[0]);
 
         // Add an event listener to the dropdown menu element
         dropdown.on("change", function() {
