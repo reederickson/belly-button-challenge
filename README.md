@@ -10,12 +10,17 @@ The dataset reveals that a small handful of microbial species (also called opera
 ### Horizonal Bar Chart
 -Displays the top 10 OTUs found in the selected individual.
 -Utilizes a dropdown menu for users to select the individual of interest.
+![Bar Chart](/images/bar_chart.png)
+
 ### Bubble Chart
 -Visualizes each sample with a bubble chart.
 -Provides an intuitive way to explore the distribution and abundance of OTUs across samples.
+![Bubble Chart](/images/bubble_chart.png)
+
 ### Sample Metadata 
 -Displays demographic information for each individual, including age, gender, ethnicity, and more.
 -Allows users to understand the context of the sample data.
+![Sample Metadata](/images/sample_metadata.png)
 
 ### Technologies Used
 HTML
